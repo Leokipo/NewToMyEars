@@ -1,4 +1,4 @@
-# Followed tutorial from YouTube on SpotifyAPI calls
+# Followed tutorial from YouTube on SpotifyAPI calls (https://www.youtube.com/watch?v=WAmEZBEeNmg&ab_channel=AkamaiDeveloper)
 import base64
 
 from dotenv import load_dotenv
@@ -43,3 +43,17 @@ def searchArtist(token, artist_name):
         print("No artist with name ",artist_name, " found.")
         return None
     return json_result[0]
+
+def getSongsByArtist(token, artist_id):
+    url = f"https://api.spotify.com/v1/artists/{artist_id}/top-tracks"
+    headers = getAuthHeader(token)
+    result = get(url, headers=headers)
+    json_result = json.loads(result.content)["tracks"]
+    return json_result
+
+token = getToken()
+result = searchArtist(token, "Tame")
+artist_id = result["id"]
+top_songs = getSongsByArtist(token, artist_id)
+for song in top_songs:
+    print(song["name"])
