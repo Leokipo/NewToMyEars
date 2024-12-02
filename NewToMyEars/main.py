@@ -1,9 +1,10 @@
 # Followed tutorial from YouTube on SpotifyAPI calls
 import base64
+
 from dotenv import load_dotenv
 import json
 import os
-from requests import post
+from requests import post, get
 
 load_dotenv()
 
@@ -28,3 +29,17 @@ def getToken():
 
 def getAuthHeader(token):
     return {"Authorization": "Bearer " + token}
+
+def searchArtist(token, artist_name):
+    url = "https://api.spotify.com/v1/search"
+    headers = getAuthHeader(token)
+    query = f"?q={artist_name}&type=artist&limit=1"
+
+    query_url = url + query
+    result = get(query_url, headers=headers)
+    json_result = json.loads(result.content)["artists"]["items"]
+
+    if len(json_result) == 0:
+        print("No artist with name ",artist_name, " found.")
+        return None
+    return json_result[0]
