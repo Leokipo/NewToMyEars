@@ -30,30 +30,15 @@ def getToken():
 def getAuthHeader(token):
     return {"Authorization": "Bearer " + token}
 
-def searchArtist(token, artist_name):
+def getSongsofGenre(token, genre, offset):
     url = "https://api.spotify.com/v1/search"
     headers = getAuthHeader(token)
-    query = f"?q={artist_name}&type=artist&limit=1"
+    query = f"?q=genre:{genre}&type=track&limit=50&offset={offset}"
 
     query_url = url + query
     result = get(query_url, headers=headers)
-    json_result = json.loads(result.content)["artists"]["items"]
-
-    if len(json_result) == 0:
-        print("No artist with name ",artist_name, " found.")
-        return None
-    return json_result[0]
-
-def getSongsByArtist(token, artist_id):
-    url = f"https://api.spotify.com/v1/artists/{artist_id}/top-tracks"
-    headers = getAuthHeader(token)
-    result = get(url, headers=headers)
-    json_result = json.loads(result.content)["tracks"]
+    json_result = json.loads(result.content)["tracks"]["items"]
     return json_result
 
 token = getToken()
-result = searchArtist(token, "Tame")
-artist_id = result["id"]
-top_songs = getSongsByArtist(token, artist_id)
-for song in top_songs:
-    print(song["name"])
+genre = "psychedelic"
