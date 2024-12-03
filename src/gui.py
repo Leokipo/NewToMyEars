@@ -1,4 +1,6 @@
 import tkinter as tk
+
+
 def displayGenreSelection():
     root = tk.Tk()
     root.geometry("700x700")
@@ -8,8 +10,14 @@ def displayGenreSelection():
     tk.Label(root, text="Type a genre to make a playlist of new music", font=("Arial", 16)).pack(padx=10, pady=10)
 
     # retrieve genre input from Entry field
-    genre = tk.StringVar()
-    tk.Entry(root, textvariable=genre, font=("Arial", 16)).pack(padx=10, pady=10)
+    genreVar = tk.StringVar()
+    tk.Entry(root, textvariable=genreVar, font=("Arial", 16)).pack(padx=10, pady=10)
+
+    def getGenre():
+        genre = genreVar.get().lower()
+        print(genre)
+
+    tk.Button(root, text="Generate Playlist", command=getGenre).pack(padx=10, pady=10)
 
     root.mainloop()
 
