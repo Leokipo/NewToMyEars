@@ -68,9 +68,10 @@ def getSongsofPlaylists(playlists):
         playlist_tracks = getPlaylistSongs(token, playlist_id)
         for tracks in playlist_tracks:
             try:
-                name = tracks["track"]["TrackObject"]["name"]
-                popularity = tracks["track"]["TrackObject"]["popularity"]
+                name = tracks["track"]["id"]
+                popularity = tracks["track"]["popularity"]
             except:
+                print("fail")
                 continue
             song_pair = (name, popularity)
             songs.append(song_pair)
@@ -78,13 +79,13 @@ def getSongsofPlaylists(playlists):
 
 
 token = getToken()
-genre = "jazz"
+genre = ("jazz")
 result = []
 total_songs = 0
-for i in range(0,1):
+for i in range(0,15):
     result += getPlaylistsofGenre(token, genre, i*50)
-print(result)
-# songs = getSongsofPlaylists(result)
+# print(len(result))
+songs = getSongsofPlaylists(result)
 # print(len(songs))
 # for song in songs:
 #     print(song[0], song[1])
