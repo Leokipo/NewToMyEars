@@ -31,15 +31,6 @@ def getToken():
 def getAuthHeader(token):
     return {"Authorization": "Bearer " + token}
 
-# def getSongsofGenre(token, genre, offset):
-#     url = "https://api.spotify.com/v1/search"
-#     query = f"?q=genre:{genre}&type=track&limit=50&offset={offset}"
-#     query_url = url + query
-#     headers = getAuthHeader(token)
-#
-#     result = get(query_url, headers=headers)
-#     json_result = json.loads(result.content)["tracks"]["items"]
-#     return json_result
 def getPlaylistsofGenre(token, genre, offset):
     url = "https://api.spotify.com/v1/search"
     query = f"?q={genre}&type=playlist&limit=1&offset={offset}"
@@ -84,8 +75,8 @@ result = []
 total_songs = 0
 for i in range(0,15):
     result += getPlaylistsofGenre(token, genre, i*50)
-print(len(result))
 songs = getSongsofPlaylists(result)
+print(len(result))
 print(len(songs))
 for song in songs:
     print(song[0], song[1])
