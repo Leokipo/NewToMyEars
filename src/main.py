@@ -39,18 +39,9 @@ def getAuthHeader(token):
 #     result = get(query_url, headers=headers)
 #     json_result = json.loads(result.content)["tracks"]["items"]
 #     return json_result
-
-def getPlaylistSongs(token, playlist_id):
-    url = f"https://api.spotify.com/v1/playlists/{playlist_id}"
-    headers = getAuthHeader(token)
-
-    result = get(url, headers=headers)
-    json_result = json.loads(result.content)["playlist"]["tracks"]["items"]
-    return json_result
-
 def getPlaylistsofGenre(token, genre, offset):
     url = "https://api.spotify.com/v1/search"
-    query = f"?q={genre}&type=playlist&limit=50&offset={offset}"
+    query = f"?q={genre}&type=playlist&limit=1&offset={offset}"
     query_url = url + query
     headers = getAuthHeader(token)
 
@@ -58,21 +49,41 @@ def getPlaylistsofGenre(token, genre, offset):
     json_result = json.loads(result.content)["playlists"]["items"]
     return json_result
 
-def getSongsofPlaylist(playlists):
+def getPlaylistSongs(token, playlist_id):
+    url = f"https://api.spotify.com/v1/playlists/{playlist_id}"
+    headers = getAuthHeader(token)
+
+    result = get(url, headers=headers)
+    json_result = json.loads(result.content)["tracks"]["items"]
+    return json_result
+
+def getSongsofPlaylists(playlists):
     songs = []
     token = getToken()
     for item in playlists:
         if item is None:
             continue
         playlist_id = item["id"]
-        print(playlist_id)
-        tracks = getPlaylistSongs(token, playlist_id)
+        playlist_tracks = getPlaylistSongs(token, playlist_id)
+        for tracks in playlist_tracks:
+            try:
+                name = tracks["track"]["TrackObject"]["name"]
+                popularity = tracks["track"]["TrackObject"]["popularity"]
+            except:
+                continue
+            song_pair = (name, popularity)
+            songs.append(song_pair)
+    return songs
 
 
 token = getToken()
-genre = "rap"
+genre = "jazz"
 result = []
 total_songs = 0
-for i in range(0,20):
+for i in range(0,1):
     result += getPlaylistsofGenre(token, genre, i*50)
-getSongsofPlaylist(result)
+print(result)
+# songs = getSongsofPlaylists(result)
+# print(len(songs))
+# for song in songs:
+#     print(song[0], song[1])
