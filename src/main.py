@@ -79,7 +79,7 @@ def getSongsofPlaylists(playlists):
 
 
 token = getToken()
-genre = ("indie")
+genre = input("Genre to explore: ")
 result = []
 total_songs = 0
 for i in range(0,15):
