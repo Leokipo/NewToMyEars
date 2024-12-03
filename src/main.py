@@ -1,5 +1,6 @@
 # Followed tutorial from YouTube on SpotifyAPI calls (https://www.youtube.com/watch?v=WAmEZBEeNmg&ab_channel=AkamaiDeveloper)
 import base64
+import string
 
 from dotenv import load_dotenv
 import json
@@ -32,13 +33,18 @@ def getAuthHeader(token):
 
 def getSongsofGenre(token, genre, offset):
     url = "https://api.spotify.com/v1/search"
-    headers = getAuthHeader(token)
     query = f"?q=genre:{genre}&type=track&limit=50&offset={offset}"
-
     query_url = url + query
+    headers = getAuthHeader(token)
+
     result = get(query_url, headers=headers)
     json_result = json.loads(result.content)["tracks"]["items"]
     return json_result
 
 token = getToken()
 genre = "psychedelic"
+result = []
+for i in range(0,20):
+    result += getSongsofGenre(token, genre, i*50)
+for trackObj in result:
+    print(trackObj["name"])
