@@ -7,7 +7,7 @@ import random
 
 class multimap:
     def __init__(self):
-        self.map = [set() for _ in range(100)] # populate the map array with a set for each index
+        self.map = [set() for _ in range(101)] # populate the map array with a set for each index
 
     def insert(self, index, songName):
         # insert a new song to the set at the corresponding popularity index
@@ -15,5 +15,6 @@ class multimap:
 
     def getSong(self, index):
         # get a random song from the given popularity index
+        # O(n) time complexity because of conversion to list (random access)
         targetSet = self.map[index]
-        return random.choice(targetSet)
+        return random.choice(list(targetSet))
