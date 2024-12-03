@@ -1,4 +1,5 @@
 # Followed tutorial from YouTube on SpotifyAPI calls (https://www.youtube.com/watch?v=WAmEZBEeNmg&ab_channel=AkamaiDeveloper)
+import random
 import base64
 
 from dotenv import load_dotenv
@@ -76,3 +77,13 @@ total_songs = 0
 for i in range(0,20):
     result += getPlaylistsofGenre(token, genre, i*50)
 getSongsofPlaylist(result)
+
+"""
+Loop for getting random popularity scores to access songs stored in the multimap and redblack data structures
+Each score is a multiple of 5 starting from 10, summed with a random integer 0-4
+"""
+multimapSongs = []
+redblackSongs = []
+for i in range(0,10):
+    randomScore = 10 + (i * 5) + random.randint(0, 4)
+    # using randomScore, get a song from multimap and redblack and append to corresponding list
