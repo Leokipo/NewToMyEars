@@ -72,11 +72,11 @@ def getSongsofPlaylists(playlists):
 token = getToken()
 genre = input("Genre to explore: ")
 result = []
-total_songs = 0
 for i in range(0,15):
-    result += getPlaylistsofGenre(token, genre, i*50)
+    result += getPlaylistsofGenre(token, genre, i*35)
+
 songs = getSongsofPlaylists(result)
-print(len(result))
-print(len(songs))
-for song in songs:
-    print(song[0], song[1])
+# print(len(result))
+# print(len(songs))
+# for song in songs:
+#     print(song[0], song[1])
