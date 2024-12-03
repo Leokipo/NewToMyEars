@@ -79,23 +79,13 @@ def getSongsofPlaylists(playlists):
 
 
 token = getToken()
-genre = ("jazz")
+genre = ("indie")
 result = []
 total_songs = 0
 for i in range(0,15):
     result += getPlaylistsofGenre(token, genre, i*50)
-# print(len(result))
+print(len(result))
 songs = getSongsofPlaylists(result)
-# print(len(songs))
-# for song in songs:
-#     print(song[0], song[1])
-
-"""
-Loop for generating random popularity scores to get songs from the data structures
-Scores are multiples of 5, starting from 10, summed with a random integer 0-4
-"""
-multimapSongs = []
-redblackSongs = []
-for i in range(10):
-    randomScore = 10 + (i * 5) + random.randint(0, 4)
-    # get a random song from the corresponding score from both data structures
+print(len(songs))
+for song in songs:
+    print(song[0], song[1])
