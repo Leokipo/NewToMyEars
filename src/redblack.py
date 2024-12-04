@@ -175,10 +175,14 @@ class RedBlackTree:
         for r in ranges:
             num_range1 = random.randint(*r)
             num_range2 = random.randint(*r)
+            num_range3 = random.randint(*r)
+            num_range4 = random.randint(*r)
 
             # Fetch random songs from the tree
             self.get_random_song(num_range1, random_songs)
             self.get_random_song(num_range2, random_songs)
+            self.get_random_song(num_range3, random_songs)
+            self.get_random_song(num_range4, random_songs)
 
         # Print the final list of random songs
         return(random_songs)
