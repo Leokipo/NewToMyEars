@@ -62,8 +62,7 @@ def getSongsofPlaylists(playlists):
                 name = tracks["track"]["id"]
                 popularity = tracks["track"]["popularity"]
             except:
-                print("fail")
-                continue
+                continue # Track is null or something
             song_pair = (name, popularity)
             songs.append(song_pair)
     return songs
