@@ -161,6 +161,7 @@ class RedBlackTree:
         if song_set:
             random_song = random.choice(list(song_set))  # Convert set to list for random.choice
             song_list.append(random_song)  # Add the song to the list
+            song_set.remove(random_song)    # remove the song to account for duplicates
         else:
             # If the key does not exist and is within bounds, try the next key
             if key < 99:
