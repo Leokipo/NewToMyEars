@@ -31,7 +31,7 @@ class multimap:
         Get two songs from each range of scores (10 total songs)
         """
         songIDs = []
-        for j in range(2):
+        for j in range(4):
             for i in range(5):
                 songID = False
                 while not songID:
