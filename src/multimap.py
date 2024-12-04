@@ -23,7 +23,7 @@ class multimap:
         targetSet.remove(songID)
         return songID
 
-    def generateRandomSongs(self):
+    def create_playlist(self):
         """
         Generate random integers within ranges of 10: 0-10, 10-20, 20-30, 30-40, and 40-50
         Use those scores to get songs from the multimap

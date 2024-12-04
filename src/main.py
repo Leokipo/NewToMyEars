@@ -8,7 +8,7 @@ import os
 from requests import post, get
 
 from redblack import RedBlackTree
-rb_tree = RedBlackTree()
+from multimap import multimap
 
 load_dotenv()
 
@@ -73,6 +73,7 @@ def getSongsofPlaylists(playlists):
 
 token = getToken()
 genre = input("Genre to explore: ")
+print(f"Generating {genre} songs...")
 result = []
 for i in range(0,15):
     result += getPlaylistsofGenre(token, genre, i*35)
@@ -80,10 +81,17 @@ for i in range(0,15):
 songs = getSongsofPlaylists(result)
 
 
+data_structure = input("Data Structure to use (0 for red black tree, 1 for multimap): ")
+while data_structure != "0" and data_structure != "1":
+    data_structure = input("Error. Incorrect input.\nData Structure to use (0 for red black tree, 1 for multimap): ")
+if data_structure == "0":
+    storage = RedBlackTree()
+else:
+    storage = multimap()
 
 for song_id, popularity in songs:
-    rb_tree.insert(popularity, song_id)
+    storage.insert(popularity, song_id)
 
-print(rb_tree.create_playlist())
+print(storage.create_playlist())
 
 
