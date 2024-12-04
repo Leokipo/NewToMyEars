@@ -30,10 +30,12 @@ class multimap:
         If the score is not found, loop again
         Get two songs from each range of scores (10 total songs)
         """
+        songIDs = []
         for j in range(2):
             for i in range(5):
                 songID = False
                 while not songID:
                     randomScore = (i * 10) + random.randint(0, 10)
                     songID = self.getSong(randomScore)
-                print(songID)
+                songIDs.append(songID)
+        return songIDs
