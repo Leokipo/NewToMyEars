@@ -1,5 +1,11 @@
 import tkinter as tk
+import webbrowser
 
+def displayUserAuth(authorization_url):
+    root = tk.Tk()
+    root.geometry("700x700")
+    root.title("Spotify Authentication")
+    webbrowser.open(authorization_url)
 
 def displayGenreSelection():
     root = tk.Tk()
@@ -21,4 +27,4 @@ def displayGenreSelection():
 
     root.mainloop()
 
-displayGenreSelection()
+# displayGenreSelection()

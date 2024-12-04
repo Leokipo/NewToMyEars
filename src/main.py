@@ -1,10 +1,17 @@
 # Followed tutorial from YouTube on SpotifyAPI calls (https://www.youtube.com/watch?v=WAmEZBEeNmg&ab_channel=AkamaiDeveloper)
-import random
+from datetime import datetime
+
+import requests
 import base64
+import urllib.parse
+from flask import Flask, redirect, request, jsonify, session
+
+import gui
 
 from dotenv import load_dotenv
 import json
 import os
+
 from requests import post, get
 
 load_dotenv()
@@ -14,19 +21,70 @@ client_secret = os.getenv('CLIENT_SECRET')
 redirect_uri = os.getenv('REDIRECT_URI')
 
 def authUser():
-    scope = ["playlist-modify-private"]
-    from requests_oauthlib import OAuth2Session
-    spotify = OAuth2Session(client_id, scope=scope, redirect_uri=redirect_uri)
+    # followed tutorial by Imdad Codes https://www.youtube.com/watch?v=olY_2MW4Eik&t=90s
+    app = Flask(__name__)
+    app.secret_key = client_secret
 
-    # redirect to Spotify
-    authorization_url, state = spotify.authorization_url("https://accounts.spotify.com/authorize")
-    print('Go here to authorize your account: ', authorization_url)
-    redirect_response = input('\n\nPaste the redirect URL here: ')
+    AUTH_URL = 'https://accounts.spotify.com/authorize'
+    TOKEN_URL = 'https://accounts.spotify.com/api/token'
+    API_BASE_URL = 'https://api.spotify.com/v1/'
 
-    from requests.auth import HTTPBasicAuth
-    auth = HTTPBasicAuth(client_id, client_secret)
-    token = spotify.fetch_token("https://accounts.spotify.com/api/token", auth=auth, authorization_response=redirect_response)
-    print(token)
+    @app.route('/')
+    def index():
+        return "Welcome to NewToMyEars <a href='/login'>Login with Spotify</a>"
+
+    @app.route('/login')
+    def login():
+        scope = ["playlist-modify-private"]
+        params = {
+            'client_id': client_id,
+            'response_type': 'code',
+            'scope': scope,
+            'redirect_uri': redirect_uri,
+            'show_dialog': True
+        }
+
+        auth_url = f"{AUTH_URL}?{urllib.parse.urlencode(params)}"
+        return redirect(auth_url)
+
+    @app.route('/callback')
+    def callback():
+        if 'error' in request.args:
+            return jsonify({'error': request.args['error']})
+
+        if 'code' in request.args:
+            req_body = {
+                'code': request.args['code'],
+                'grant_type': 'authorization_code',
+                'redirect_uri': redirect_uri,
+                'client_id': client_id,
+                'client_secret': client_secret
+            }
+
+            response = requests.post(TOKEN_URL, data=req_body)
+            token_info = response.json()
+
+            session['access_token'] = token_info['access_token']
+            session['refresh_token'] = token_info['refresh_token']
+            session['expires_at'] = datetime.now().timestamp() + token_info['expires_in']
+
+            return redirect('/playlists')
+
+        @app.route('/playlists')
+        def make_playlist():
+            if 'access_token' not in session:
+                return redirect('/login')
+
+            if datetime.now().timestamp() > session['expires_at']:
+                return redirect('/refresh-token')
+
+            headers = {
+                'Authorization': f'Bearer {session['access_token']}',
+                'Content-Type': 'application/json'
+            }
+
+            response = requests.get(API_BASE_URL + 'me/playlists', headers=headers)
+            playlists = response.json()
 
 def getToken():
     auth_string = client_id + ':' + client_secret
@@ -83,7 +141,7 @@ def getSongsofPlaylists(playlists):
             songs.append(song_pair)
     return songs
 
-authUser()
+spotify = authUser()
 token = getToken()
 genre = input("Genre to explore: ")
 result = []
