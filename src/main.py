@@ -1,5 +1,4 @@
 # Followed tutorial from YouTube on SpotifyAPI calls (https://www.youtube.com/watch?v=WAmEZBEeNmg&ab_channel=AkamaiDeveloper)
-import random
 import base64
 
 from dotenv import load_dotenv
