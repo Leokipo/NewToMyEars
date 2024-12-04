@@ -173,29 +173,3 @@ def displayGenreSelection():
     root.mainloop()
 
 displayGenreSelection()
-
-
-"""token = getToken()
-genre = input("Genre to explore: ")
-print(f"Generating {genre} songs...")
-result = []
-for i in range(0,15):
-    result += getPlaylistsofGenre(token, genre, i*35)
-
-songs = getSongsofPlaylists(result)
-
-
-data_structure = input("Data Structure to use (0 for red black tree, 1 for multimap): ")
-while data_structure != "0" and data_structure != "1":
-    data_structure = input("Error. Incorrect input.\nData Structure to use (0 for red black tree, 1 for multimap): ")
-if data_structure == "0":
-    storage = RedBlackTree()
-else:
-    storage = multimap()
-
-for song_id, popularity in songs:
-    storage.insert(popularity, song_id)
-
-print(storage.create_playlist())"""
-
-
