@@ -11,6 +11,22 @@ load_dotenv()
 
 client_id = os.getenv('CLIENT_ID')
 client_secret = os.getenv('CLIENT_SECRET')
+redirect_uri = os.getenv('REDIRECT_URI')
+
+def authUser():
+    scope = ["playlist-modify-private"]
+    from requests_oauthlib import OAuth2Session
+    spotify = OAuth2Session(client_id, scope=scope, redirect_uri=redirect_uri)
+
+    # redirect to Spotify
+    authorization_url, state = spotify.authorization_url("https://accounts.spotify.com/authorize")
+    print('Go here to authorize your account: ', authorization_url)
+    redirect_response = input('\n\nPaste the redirect URL here: ')
+
+    from requests.auth import HTTPBasicAuth
+    auth = HTTPBasicAuth(client_id, client_secret)
+    token = spotify.fetch_token("https://accounts.spotify.com/api/token", auth=auth, authorization_response=redirect_response)
+    print(token)
 
 def getToken():
     auth_string = client_id + ':' + client_secret
@@ -67,7 +83,7 @@ def getSongsofPlaylists(playlists):
             songs.append(song_pair)
     return songs
 
-
+authUser()
 token = getToken()
 genre = input("Genre to explore: ")
 result = []
