@@ -7,6 +7,9 @@ import json
 import os
 from requests import post, get
 
+from redblack import RedBlackTree
+rb_tree = RedBlackTree()
+
 load_dotenv()
 
 client_id = os.getenv('CLIENT_ID')
@@ -75,7 +78,12 @@ for i in range(0,15):
     result += getPlaylistsofGenre(token, genre, i*35)
 
 songs = getSongsofPlaylists(result)
-# print(len(result))
-# print(len(songs))
-# for song in songs:
-#     print(song[0], song[1])
+
+
+
+for song_id, popularity in songs:
+    rb_tree.insert(popularity, song_id)
+
+print(rb_tree.create_playlist())
+
+

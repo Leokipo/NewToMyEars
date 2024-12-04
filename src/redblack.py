@@ -1,3 +1,5 @@
+import random
+
 class RedBlackNode:
     def __init__(self, key):
         self.key = key
@@ -147,6 +149,39 @@ class RedBlackTree:
 
     def print_tree(self):
         self.print_helper(self.root, 0)
+
+    def get_random_song(self, key, song_list):
+        """
+        Searches for a random song in the tree starting from the specified key.
+        If the key does not exist, it will search the next available key.
+        """
+        song_set = self.search(key)
+
+        # If the key exists and has songs, choose one randomly
+        if song_set:
+            random_song = random.choice(list(song_set))  # Convert set to list for random.choice
+            song_list.append(random_song)  # Add the song to the list
+        else:
+            # If the key does not exist and is within bounds, try the next key
+            if key < 99:
+                self.get_random_song(key + 1, song_list)  # Recursive call for the next key
+
+    def create_playlist(self):
+        random_songs = []  # List to store the random playlist
+
+        # Define ranges for song selection
+        ranges = [(1, 10), (11, 20), (21, 30), (31, 40), (41, 50)]
+
+        for r in ranges:
+            num_range1 = random.randint(*r)
+            num_range2 = random.randint(*r)
+
+            # Fetch random songs from the tree
+            self.get_random_song(num_range1, random_songs)
+            self.get_random_song(num_range2, random_songs)
+
+        # Print the final list of random songs
+        return(random_songs)
 
 
 # Example Usage
