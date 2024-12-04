@@ -70,8 +70,68 @@ def getSongsofPlaylists(playlists):
             songs.append(song_pair)
     return songs
 
+def populateSongs(storage, genre, frame):
+    # clear current frame of song ids
+    for label in frame.winfo_children():
+        label.destroy()
 
-token = getToken()
+    token = getToken()
+    # store songs from playlists of the genre
+    result = []
+    for i in range(0, 15):
+        result += getPlaylistsofGenre(token, genre, i * 35)
+
+    songs = getSongsofPlaylists(result)
+
+    # store songs in inputted data structure
+    for song_id, popularity in songs:
+        storage.insert(popularity, song_id)
+
+    generated_songs = storage.create_playlist()
+
+    # display songs in a new frame
+    for song in generated_songs:
+        tk.Label(frame, text=song, font=("Arial", 8)).pack()
+    frame.pack(padx=5, pady=5)
+
+"""
+GUI Implementation
+"""
+import tkinter as tk
+def displayGenreSelection():
+    root = tk.Tk()
+    root.geometry("700x700")
+    root.title("NewToMyEars")
+
+    tk.Label(root, text="Welcome to NewToMyEars!", font=("Arial", 20)).pack(padx=10, pady=10)
+    tk.Label(root, text="Type a genre to make a playlist of new music", font=("Arial", 16)).pack(padx=10, pady=10)
+
+    # retrieve genre input from Entry field
+    genreVar = tk.StringVar()
+    tk.Entry(root, textvariable=genreVar, font=("Arial", 16)).pack(padx=10, pady=10)
+
+    def makeRedBlack():
+        genre = genreVar.get().lower()
+        storage = RedBlackTree()
+        populateSongs(storage, genre, frame)
+    def makeMultimap():
+        genre = genreVar.get().lower()
+        storage = multimap()
+        populateSongs(storage, genre, frame)
+
+    # buttons for activating storage container
+    tk.Button(root, text="Generate Playlist Using Red Black Tree", command=makeRedBlack).pack(padx=10, pady=10)
+    tk.Button(root, text="Generate Playlist Using Multimap", command=makeMultimap).pack(padx=10, pady=10)
+
+    # frame for displaying song ids
+    frame = tk.Frame(root)
+
+    root.mainloop()
+
+displayGenreSelection()
+
+
+"""token = getToken()
 genre = input("Genre to explore: ")
 print(f"Generating {genre} songs...")
 result = []
@@ -92,6 +152,6 @@ else:
 for song_id, popularity in songs:
     storage.insert(popularity, song_id)
 
-print(storage.create_playlist())
+print(storage.create_playlist())"""
 
 

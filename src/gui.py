@@ -13,11 +13,11 @@ def displayGenreSelection():
     genreVar = tk.StringVar()
     tk.Entry(root, textvariable=genreVar, font=("Arial", 16)).pack(padx=10, pady=10)
 
-    def getGenre():
+    def makeRedBlack():
         genre = genreVar.get().lower()
         print(genre)
 
-    tk.Button(root, text="Generate Playlist", command=getGenre).pack(padx=10, pady=10)
+    tk.Button(root, text="Generate Playlist Using Red Black Tree", command=makeRedBlack).pack(padx=10, pady=10)
 
     root.mainloop()
 
