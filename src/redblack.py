@@ -46,9 +46,9 @@ class RedBlackTree:
             parent.right = new_node
 
         new_node.value.add(string)  # Add the string to the new node's set
-        self.fix_insert(new_node)
+        self.fixInsert(new_node)
 
-    def fix_insert(self, node):
+    def fixInsert(self, node):
         while node.parent and node.parent.color == "RED":
             grandparent = node.parent.parent
             if node.parent == grandparent.left:
@@ -63,11 +63,11 @@ class RedBlackTree:
                     if node == node.parent.right:
                         # Case 2: Node is right child
                         node = node.parent
-                        self.left_rotate(node)
+                        self.leftRotate(node)
                     # Case 3: Node is left child
                     node.parent.color = "BLACK"
                     grandparent.color = "RED"
-                    self.right_rotate(grandparent)
+                    self.rightRotate(grandparent)
             else:
                 uncle = grandparent.left
                 if uncle.color == "RED":
@@ -80,15 +80,15 @@ class RedBlackTree:
                     if node == node.parent.left:
                         # Case 2: Node is left child
                         node = node.parent
-                        self.right_rotate(node)
+                        self.rightRotate(node)
                     # Case 3: Node is right child
                     node.parent.color = "BLACK"
                     grandparent.color = "RED"
-                    self.left_rotate(grandparent)
+                    self.leftRotate(grandparent)
 
         self.root.color = "BLACK"
 
-    def left_rotate(self, node):
+    def leftRotate(self, node):
         right_child = node.right
         node.right = right_child.left
         if right_child.left != self.TNULL:
@@ -103,7 +103,7 @@ class RedBlackTree:
         right_child.left = node
         node.parent = right_child
 
-    def right_rotate(self, node):
+    def rightRotate(self, node):
         left_child = node.left
         node.left = left_child.right
         if left_child.right != self.TNULL:
@@ -127,7 +127,7 @@ class RedBlackTree:
                 current = current.right
         return current.value if current != self.TNULL else None
 
-    def print_helper(self, node, space, count=5):
+    def printHelper(self, node, space, count=5):
         # Base case: if the node is TNULL (null leaf), return
         if node == self.TNULL:
             return
@@ -136,7 +136,7 @@ class RedBlackTree:
         space += count
 
         # Print the right child first (recurse)
-        self.print_helper(node.right, space)
+        self.printHelper(node.right, space)
 
         # Print the current node after padding with spaces
         print()
@@ -145,12 +145,12 @@ class RedBlackTree:
         print(f"{node.key} ({node.color}) {node.value}")
 
         # Print the left child (recurse)
-        self.print_helper(node.left, space)
+        self.printHelper(node.left, space)
 
-    def print_tree(self):
-        self.print_helper(self.root, 0)
+    def printTree(self):
+        self.printHelper(self.root, 0)
 
-    def get_random_song(self, key, song_list):
+    def getRandomSong(self, key, song_list):
         """
         Searches for a random song in the tree starting from the specified key.
         If the key does not exist, it will search the next available key.
@@ -165,9 +165,9 @@ class RedBlackTree:
         else:
             # If the key does not exist and is within bounds, try the next key
             if key < 99:
-                self.get_random_song(key + 1, song_list)  # Recursive call for the next key
+                self.getRandomSong(key + 1, song_list)  # Recursive call for the next key
 
-    def create_playlist(self):
+    def createPlaylist(self):
         random_songs = []  # List to store the random playlist
 
         # Define ranges for song selection
@@ -180,10 +180,10 @@ class RedBlackTree:
             num_range4 = random.randint(*r)
 
             # Fetch random songs from the tree
-            self.get_random_song(num_range1, random_songs)
-            self.get_random_song(num_range2, random_songs)
-            self.get_random_song(num_range3, random_songs)
-            self.get_random_song(num_range4, random_songs)
+            self.getRandomSong(num_range1, random_songs)
+            self.getRandomSong(num_range2, random_songs)
+            self.getRandomSong(num_range3, random_songs)
+            self.getRandomSong(num_range4, random_songs)
 
         # Print the final list of random songs
         return(random_songs)
@@ -203,7 +203,7 @@ if __name__ == "__main__":
     rb_tree.insert(40, "kiwi")
 
 
-    rb_tree.print_tree()
+    rb_tree.printTree()
 
     print("Search for key 10:", rb_tree.search(10))
     print("Search for key 50:", rb_tree.search(50))

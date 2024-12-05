@@ -16,26 +16,26 @@ class multimap:
     def getSong(self, index):
         # get a random song from the given popularity index
         # O(n) time complexity because of conversion to list (random access)
-        targetSet = self.map[index]
-        if not bool(targetSet):    # set is empty, return false and get a new popularity index
+        target_set = self.map[index]
+        if not bool(target_set):    # set is empty, return false and get a new popularity index
             return False
-        songID = random.choice(list(targetSet))
-        targetSet.remove(songID)
+        songID = random.choice(list(target_set))
+        target_set.remove(songID)
         return songID
 
-    def create_playlist(self):
+    def createPlaylist(self):
         """
         Generate random integers within ranges of 10: 0-10, 10-20, 20-30, 30-40, and 40-50
         Use those scores to get songs from the multimap
         If the score is not found, loop again
         Get two songs from each range of scores (10 total songs)
         """
-        songIDs = []
+        song_ids = []
         for j in range(4):
             for i in range(5):
-                songID = False
-                while not songID:
-                    randomScore = (i * 10) + random.randint(0, 10)
-                    songID = self.getSong(randomScore)
-                songIDs.append(songID)
-        return songIDs
+                song_id = False
+                while not song_id:
+                    random_score = (i * 10) + random.randint(0, 10)
+                    song_id = self.getSong(random_score)
+                song_ids.append(song_id)
+        return song_ids

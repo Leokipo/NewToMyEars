@@ -81,11 +81,11 @@ def createUserPlaylist(username, playlist_name, playlist_description, song_ids):
     scope = "playlist-modify-private"
 
     token = SpotifyOAuth(scope=scope, username=username, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri)
-    spotifyObject = spotipy.Spotify(auth_manager=token)
+    spotify_object = spotipy.Spotify(auth_manager=token)
 
     # create a new playlist
-    new_playlist = spotifyObject.user_playlist_create(user=username, name=playlist_name, public=False, description=playlist_description)
-    spotifyObject.playlist_add_items(new_playlist["id"], song_ids)
+    new_playlist = spotify_object.user_playlist_create(user=username, name=playlist_name, public=False, description=playlist_description)
+    spotify_object.playlist_add_items(new_playlist["id"], song_ids)
 
 def generateSongs(storage, genre, username, frame):
     # clear current frame of playlist generation
@@ -109,7 +109,7 @@ def generateSongs(storage, genre, username, frame):
         storage.insert(popularity, song_id)
 
     # get random songs of each popularity range
-    generated_songs = storage.create_playlist()
+    generated_songs = storage.createPlaylist()
 
     # songs have been generated
     tk.Label(frame, text="Songs have been generated!", font=("Arial", 12)).pack(padx=10, pady=10)
