@@ -124,8 +124,6 @@ def generateSongs(storage, genre, username, frame):
         playlist_description = playlist_description_var.get()
         createUserPlaylist(username, playlist_name, playlist_description, generated_songs)
 
-        tk.Label(frame, text="Playlist generated! Check your Spotify account.")
-
 
     tk.Button(frame, text="Generate Playlist", command=generatePlaylist).pack(padx=10, pady=10)
 
