@@ -92,10 +92,6 @@ def generateSongs(storage, genre, username, frame):
     for widget in frame.winfo_children():
         widget.destroy()
 
-    # tell user the songs are being generated
-    tk.Label(frame, text="Generating songs...", font=("Arial", 12)).pack(padx=10, pady=10)
-    frame.pack()
-
     token = getToken()
     # store songs from playlists of the genre
     result = []
