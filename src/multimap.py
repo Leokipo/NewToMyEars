@@ -19,9 +19,9 @@ class multimap:
         target_set = self.map[index]
         if not bool(target_set):    # set is empty, return false and get a new popularity index
             return False
-        songID = random.choice(list(target_set))
-        target_set.remove(songID)
-        return songID
+        song_id = random.choice(list(target_set))
+        target_set.remove(song_id)
+        return song_id
 
     def createPlaylist(self):
         """
